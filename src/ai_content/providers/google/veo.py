@@ -74,7 +74,7 @@ class GoogleVeoProvider:
         first_frame_url: str | None = None,
         output_path: str | None = None,
         use_fast_model: bool = False,
-        person_generation: str = "allow_adult",
+        person_generation: str | None = None,
     ) -> GenerationResult:
         """
         Generate video using Veo 3.1.
@@ -104,17 +104,17 @@ class GoogleVeoProvider:
 
         try:
             # Build config
-            config = types.GenerateVideoConfig(
-                aspect_ratio=aspect_ratio,
-                person_generation=person_generation,
-            )
+            config_kwargs = {"aspect_ratio": aspect_ratio}
+            if person_generation:
+                config_kwargs["person_generation"] = person_generation
+            config = types.GenerateVideosConfig(**config_kwargs)
 
             # Generate
             if first_frame_url:
                 # Image-to-video
                 image_data = await self._fetch_image(first_frame_url)
                 image = types.Image(image_bytes=image_data)
-                operation = await client.aio.models.generate_video(
+                operation = await client.aio.models.generate_videos(
                     model=model,
                     prompt=prompt,
                     image=image,
@@ -122,7 +122,7 @@ class GoogleVeoProvider:
                 )
             else:
                 # Text-to-video
-                operation = await client.aio.models.generate_video(
+                operation = await client.aio.models.generate_videos(
                     model=model,
                     prompt=prompt,
                     config=config,
