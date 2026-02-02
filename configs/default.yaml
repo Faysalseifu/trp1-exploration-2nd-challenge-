@@ -1,0 +1,54 @@
+# Default Configuration
+
+project:
+  name: "AI Content Generator"
+  version: "0.1.0"
+  output_dir: "./exports"
+
+# Provider selection
+defaults:
+  music_provider: "lyria"
+  video_provider: "veo"
+  image_provider: "imagen"
+
+# Google Settings
+google:
+  video_model: "veo-3.1-generate-preview"
+  video_fast_model: "veo-3.1-fast-generate-preview"
+  image_model: "imagen-4.0-generate-001"
+  music_model: "models/lyria-realtime-exp"
+  
+  video:
+    aspect_ratio: "16:9"
+    resolution: "1080p"
+    duration_seconds: 8
+    person_generation: "allow_adult"
+  
+  image:
+    aspect_ratio: "16:9"
+    number_of_images: 1
+  
+  music:
+    bpm: 120
+    duration_seconds: 30
+    temperature: 1.0
+
+# AIMLAPI Settings
+aimlapi:
+  music_model: "minimax/music-2.0"
+  lyria_model: "google/lyria2"
+  kling_model: "klingai/v2.1-master-text-to-video"
+  
+  request_timeout: 60
+  poll_interval: 10
+  max_poll_attempts: 60
+
+# KlingAI Direct Settings
+kling:
+  model: "kling-v2-master"
+  aspect_ratio: "16:9"
+  duration: "5"
+  mode: "std"
+  
+  poll_interval: 30
+  max_poll_attempts: 30
